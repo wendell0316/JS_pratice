@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>in&out</title>
+    <style>
+        #outNum li{
+            display: inline-block;
+            font-size:18px;
+            padding: 2px;
+            width: 20px;
+            text-align: center;
+            background-color: red;
+            margin: 5px;
+            margin-bottom: 0;
+            vertical-align: bottom;
+            text-indent:-9999px;
+        }
+        #outNum li:hover{
+            text-indent: 0;
+            background-color: #777;
+        }
+        #outNum{
+            /*display: block;*/
+            height: 100px;
+            /*margin-bottom: 0px;*/
+            /*background-color: blue;*/
+        }
+        /*span{
+            display: block;
+            height: 50px;
+            width: 30px;
+            background-color: yellow;
+        }*/
+    </style>
+</head>
+<body>
+    <input type="text" id="inNum" name="number">
+    <button id="btnLeftIn" onclick="insert('left')">左侧入</button>
+    <button id="btnRightIn" onclick="insert('right')">右侧入</button>
+    <button id="btnLeftOut" onclick="insert('delleft')">左侧出</button>
+    <button id="btnRightOut" onclick="insert('delright')">右侧出</button>
+    <!--数字队列-->
+    <ul id="outNum"></ul>
+    <button id="sort" onclick="Hsort()">排序</button>
+    
+    <script type="text/javascript">
+        // 绑定变量
+        var inNum = document.getElementById("inNum");
+        var outNum = document.getElementById("outNum");
+        var btnLeftIn = document.getElementById("btnLeftIn");
+        var btnRightIn = document.getElementById("btnRightIn");
+        var btnLeftOut = document.getElementById("btnLeftOut");
+        var btnRightOut = document.getElementById("btnRightOut");
+        var arr=new Array;
+        (function(){
+            sort.onclick=Hsort;
+        })();
+        // 插入数字
+        function insert(direction) {
+            if(inNum.value == ""){
+                alert("请输入需要插入的值");//输入框为空，按钮点击时，跳出提示框
+                inNum.focus();
+            } 
+            else if(isNaN(inNum.value)||inNum.value<10||inNum.value>100){
+                alert("只能输入10~100数字");//输入框为非数字，按钮点击时，跳出提示框
+                inNum.value = "";
+                inNum.focus();
+            } 
+            else{
+                oLi = document.createElement("li");
+                oLi.innerHTML = inNum.value;
+                if(direction === "left"){ //点击左侧按钮插入
+                    outNum.insertBefore(oLi,outNum.firstChild);//将生成的li元素从前方放入
+                    oLi.style.height=inNum.value+"px";
+                   // oLi.style.marginTop=(100-inNum.value)+'px';
+
+                } else if(direction === "right"){ //点击右侧按钮插入
+                    outNum.appendChild(oLi);//将生成的li元素从末尾放入
+                    oLi.style.height=inNum.value+"px";
+                }
+                else if(direction === "delright"){  //点击右侧按钮删除
+                    
+                    outNum.removeChild(outNum.lastChild);
+                } else if(direction==="delleft"){ //点击li标签删除
+                    outNum.removeChild(outNum.firstChild);
+                }
+
+
+            }
+
+
+        }
+        // console.log(Hsort);
+        function Hsort(){
+                var aLi=document.getElementsByTagName("li");
+                for (var i = 0; i < aLi.length; i++) {
+                    arr[i]=aLi[i].innerHTML;
+                    // console.log(arr);
+                    // console.log("helo");
+                }
+
+                console.log(aLi);
+                arr.sort();
+                 console.log(arr)
+                for(var i=0;i<arr.length;i++){
+                    aLi[i].innerHTML=arr[i];
+                    aLi[i].style.height=aLi[i].innerHTML+'px';
+                }
+                console.log(aLi)
+                //console.log(aLi[i].innerHTML)
+                // setTimeout(function(){
+                //     for(i=0;i<oLi.length;i++){
+                //         aLi[i].style.height=aLi[i].value+'px';
+                //     }
+                // },1000)
+            }   
+        // 删除数字
+        // function del(node,direction){
+        //     if(outNum.childNodes.length<=0){
+        //         alert("不存在元素可以删除");
+        //         return false;
+        //     } else{
+        //         if(direction === "left"){  //点击左侧按钮删除
+        //             alert("删除数字：" +outNum.firstChild.innerText +"！");
+        //             outNum.removeChild(outNum.firstChild);
+        //         } else if(direction === "right"){  //点击右侧按钮删除
+        //             alert("删除数字：" +outNum.lastChild.innerText +"！");
+        //             outNum.removeChild(outNum.lastChild);
+        //         } else{ //点击li标签删除
+        //             alert("删除数字：" +outNum.removeChild(node).innerText +"！");
+        //         }
+        //     }
+        // }
+    </script>
+</body>
+</html>
